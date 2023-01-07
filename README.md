@@ -10,6 +10,18 @@
 
 Terraform is an open-source infrastructure as code software tool that enables you to safely and predictably create, change, and improve infrastructure. Other than that terraform enables you to quickly deploy and reduce the overhead for manualy setup the infratrure from the Proxmox Web UI.
 
+## Requirements
+
+To be able to deploy k8s cluster using this Terraform configuration file you'll need to prepare
+* PROXMOX VE Server
+* VM template named **k8s-template-v2**
+* **terraform** installed on your machine
+
+The **k8s-template-v2** must be already configured until [this](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-kubeadm-kubelet-and-kubectl) state.
+
+*Note: Before converting a VM into a VM template you can checkout this [guide](https://www.burgundywall.com/post/using-cloud-init-to-set-static-ips-in-ubuntu-20-04)!
+Credits to [kneufeld](https://github.com/kneufeld)*
+
 ## Usage
 
 Create a Terraform variable for the cluster and secrets configuration
@@ -80,4 +92,27 @@ terraform init
 Next you can deploy the cluster using:
 ```
 terraform apply
+```
+
+## Initialize Cluster
+
+To intialze your Kubernetes cluster run the following command as root at your **master** node
+```bash
+kubeadm init --control-plane-endpoint="LOAD_BALANCER_IP:LOAD_BALANCER_VIP" --pod-network-cidr="10.244.0.0/16" --upload-certs
+```
+
+After the initialization process succeed, run the following command:
+```
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+Alternatively, if you are the root user, you can run:
+```
+export KUBECONFIG=/etc/kubernetes/admin.conf
+```
+
+To join other control plane nodes run the following command **(example only)**:
+```bash
+sudo kubeadm join LOAD_BALANCER_IP:LOAD_BALANCER_PORT --token 9vr73a.a8uxyaju799qwdjv --discovery-token-ca-cert-hash sha256:7c2e69131a36ae2a042a339b33381c6d0d43887e2de83720eff5359e26aec866 --control-plane --certificate-key f8902e114ef118304e561c3ecd4d0b543adc226b7a07f675f56564185ffe0c07
 ```
