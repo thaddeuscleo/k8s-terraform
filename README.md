@@ -98,7 +98,7 @@ terraform apply
 
 To intialze your Kubernetes cluster run the following command as root at your **master** node
 ```bash
-kubeadm init --control-plane-endpoint="LOAD_BALANCER_IP:LOAD_BALANCER_VIP" --pod-network-cidr="10.244.0.0/16" --upload-certs
+kubeadm init --control-plane-endpoint="LOAD_BALANCER_IP:LOAD_BALANCER_PORT" --pod-network-cidr="10.244.0.0/16" --upload-certs
 ```
 
 After the initialization process succeed, run the following command:
