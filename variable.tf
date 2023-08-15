@@ -1,57 +1,57 @@
-# Variable for communicating with Proxmox API Server
-# If you are using root user please uncheck Previlege Seperation!
-# Privilege Seperation will not return the state of the VM State back to Terraform 
 variable "proxmox_api" {
-    type = object({
-        # Proxmox API Server URL
-        url = string
-        # Token ID to access Proxmox API Server
-        token_id = string
-        # Token ID to access Proxmox API Server
-        token_secret = string
-    })
+  description = "Variable for communicating with Proxmox API Server. "
+  # If you are using root user please uncheck Previlege Seperation!
+  # Privilege Seperation will not return the state of the VM State back to Terraform 
+  type = object({
+    # Proxmox API Server URL
+    url = string
+    # Token ID to access Proxmox API Server
+    token_id = string
+    # Token ID to access Proxmox API Server
+    token_secret = string
+  })
 }
 
 
-# Define The Control Plane/Master Nodes and IP address
 variable "control-planes" {
+  description = "Define The Control Plane/Master Nodes and IP address"
   type = map(object({
     # vmid: The VM ID Number
     # ex  : '100'
-    vmid        = string
+    vmid = string
     # name: The VM Name. ex: Control Plane
     # ex  : 'master-node-X' 
-    name        = string
+    name = string
     # desc: VM Description
     # ex  : 'master-node-X for XYZ cluster'
-    desc        = string
+    desc = string
     # target_node: The destination of the VM 
     target_node = string
     # ipconfig0: state the ip address and gateway
     # format: 'ip=XX.XX.XX.XX/SUBNET,gw=XX.XX.XX.XX;'
     # ex    : 'ip=10.35.10.20/24,gw=10.35.10.1'
-    ipconfig0   = string
+    ipconfig0 = string
   }))
 }
 
-# Define The Workers/Slave Nodes and IP address
 variable "workers" {
+  description = "Define The Workers/Slave Nodes and IP address"
   type = map(object({
     # vmid: The VM ID Number
     # ex  : '100'
-    vmid        = string
+    vmid = string
     # name: The VM Name. ex: Control Plane
     # ex  : 'master-node-X' 
-    name        = string
+    name = string
     # desc: VM Description
     # ex  : 'master-node-X for XYZ cluster'
-    desc        = string
+    desc = string
     # target_node: The destination of the VM 
     target_node = string
     # ipconfig0: state the ip address and gateway
     # format: 'ip=XX.XX.XX.XX/SUBNET,gw=XX.XX.XX.XX;'
     # ex    : 'ip=10.35.10.20/24,gw=10.35.10.1'
-    ipconfig0   = string
+    ipconfig0 = string
   }))
 }
 
@@ -64,20 +64,20 @@ variable "workers" {
 # All VM Can be accessed by using SSH connection
 # to authenticate you can use password or SSH keys
 
-# Cloud Init User: The User for accessing server
 variable "ciuser" {
+  description = "Cloud Init User: The User for accessing server"
   type      = string
   sensitive = true
 }
 
-# Cloud Init User: The Password for accessing server
 variable "cipassword" {
+  description = "Cloud Init User: The Password for accessing server"
   type      = string
   sensitive = true
 }
 
-# Cloud Init User: The keys for accessing server
 variable "sshkeys" {
+  description = "Cloud Init User: The keys for accessing server"
   type      = string
   sensitive = true
 }

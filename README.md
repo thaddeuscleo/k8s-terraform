@@ -37,9 +37,11 @@ Fill the required variables to configure the cluster. You can see the required v
 Example for *credentials.auto.tfvars:*
 
 ```
-proxmox_api_url          = "(proxmox api server url)"
-proxmox_api_token_id     = "(token id)"
-proxmox_api_token_secret = "(token secret)"
+proxmox_api = {
+    url = "(proxmox api server url)"
+    token_id = "(token id)"
+    token_secret = "(token secret)"
+}
 ciuser                   = "(user)"
 cipassword               = "(pass)"
 sshkeys = "(secrets)"

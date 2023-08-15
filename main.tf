@@ -8,9 +8,9 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url          = var.proxmox_api_url
-  pm_api_token_id     = var.proxmox_api_token_id
-  pm_api_token_secret = var.proxmox_api_token_secret
+  pm_api_url          = var.proxmox_api.url
+  pm_api_token_id     = var.proxmox_api.token_id
+  pm_api_token_secret = var.proxmox_api.token_secret
 }
 
 
@@ -24,14 +24,14 @@ resource "proxmox_vm_qemu" "k8s-control-planes" {
   agent       = 1
 
   # K8s Clone Configuration
-  clone      = "k8s-template-v2"
+  clone      = "k8s-docker-base"
   full_clone = true
 
   # K8s Resources
-  cores   = 2
+  cores   = 4
   sockets = 1
   cpu     = "kvm64"
-  memory  = 2048
+  memory  = 4048
 
   # Cloud Init Configuration
   ipconfig0  = each.value["ipconfig0"]
@@ -67,14 +67,14 @@ resource "proxmox_vm_qemu" "k8s-workers" {
   agent       = 1
 
   # K8s Clone Configuration
-  clone      = "k8s-template-v2"
+  clone      = "k8s-docker-base"
   full_clone = true
 
   # K8s Resources
-  cores   = 2
+  cores   = 4
   sockets = 1
   cpu     = "kvm64"
-  memory  = 4048
+  memory  = 8192
 
   # Cloud Init Configuration
   ipconfig0  = each.value["ipconfig0"]
@@ -95,7 +95,7 @@ resource "proxmox_vm_qemu" "k8s-workers" {
   disk {
     storage = "local-lvm"
     type    = "scsi"
-    size    = "10G"
+    size    = "50G"
   }  
 }
 
