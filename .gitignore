@@ -8,3 +8,9 @@
 # States
 terraform.tfstate
 terraform.tfstate.backup
+
+# locks
+.terraform.lock.hcl
+
+# Assets
+graph.svg
